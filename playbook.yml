@@ -40,6 +40,14 @@
 
   ###############
   #
+  # minecraft
+  #
+  ###############
+  - name: minecraft
+    docker: image=itzg/minecraft-server name=minecraft net=host env="JVM_OPTS=-Xmx2048M -Xms2048M,MOTD=Baddogs Server,EULA=TRUE" ports="25565:25565" volumes=/vagrant/minecraft:/data:rw
+
+  ###############
+  #
   # minecraft www
   #
   ###############
@@ -48,8 +56,8 @@
 
   ###############
   #
-  # minecraft
+  # minecraft maps
   #
   ###############
-  - name: minecraft
-    docker: image=itzg/minecraft-server name=minecraft net=host env="JVM_OPTS=-Xmx2048M -Xms2048M,MOTD=Baddogs Server,EULA=TRUE" ports=25565:25565 volumes=/vagrant/minecraft:/data:rw
+  - name: minecraft-map cron job
+    cron: name=minecraft-map minute=0 hour=0 job="docker run -c 256 --rm -v /vagrant/minecraft:/minecraft:ro -v /vagrant/minecraft-www:/www ianneub/minecraft-map-generator && rm /vagrant/minecraft-www/markers*; docker run -c 256 --rm -v /vagrant/minecraft:/minecraft:ro -v /vagrant/minecraft-www:/www ianneub/minecraft-map-generator --genpoi"
