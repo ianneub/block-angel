@@ -1,2 +1,8 @@
 .DS_Store
 .vagrant/
+authorized_keys/*
+!authorized_keys/.keep
+minecraft/*
+!minecraft/.keep
+minecraft-www/*
+!minecraft-www/.keep

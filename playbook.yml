@@ -5,6 +5,17 @@
   tasks:
   ###############
   #
+  # basic
+  #
+  ###############
+  - name: Set up authorized_keys for the root user
+    authorized_key: user=root
+                    key="{{ lookup('file', item) }}"
+    with_fileglob:
+      - authorized_keys/*
+
+  ###############
+  #
   # python
   #
   ###############
@@ -41,4 +52,4 @@
   #
   ###############
   - name: minecraft
-    docker: image=itzg/minecraft-server name=minecraft net=host env="JVM_OPTS=-Xmx2048M -Xms2048M,MOTD=Baddogs Server,EULA=TRUE" ports=25565:25565 volumes=/vagrant/minecraft:/data
+    docker: image=itzg/minecraft-server name=minecraft net=host env="JVM_OPTS=-Xmx2048M -Xms2048M,MOTD=Baddogs Server,EULA=TRUE" ports=25565:25565 volumes=/vagrant/minecraft:/data:rw
