@@ -21,7 +21,7 @@
   #
   ###############
   - name: python
-    apt: name=python-pip state=latest
+    apt: name=python-pip state=latest update_cache=yes
   - name: docker-py
     pip: name=docker-py
 
@@ -35,7 +35,7 @@
   - name: docker apt repo
     apt_repository: repo='deb https://get.docker.com/ubuntu docker main' state=present
   - name: docker latest
-    apt: pkg=lxc-docker state=latest
+    apt: pkg=lxc-docker state=latest update_cache=yes
   - name: docker service
     service: name=docker enabled=true state=started
 
