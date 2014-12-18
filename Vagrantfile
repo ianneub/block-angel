@@ -16,9 +16,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus = 2
   end
 
-  config.vm.provision "ansible", run: "always" do |ansible|
-    ansible.playbook = "playbook.yml"
-  end
+  config.vm.provision "shell", inline: <<-END
+    # ansible
+    apt-get install -y software-properties-common \
+      && apt-add-repository -y ppa:ansible/ansible \
+      && apt-get update \
+      && apt-get install -y ansible
+  END
+
+  config.vm.provision "shell", run: "always", inline: <<-END
+    # ansible-playbook
+    cd /vagrant \
+      && ansible-playbook -i localhost.yml playbook.yml
+  END
 
   config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=777,fmode=666"]
   # config.vm.synced_folder "/some/folder", "/vagrant/minecraft", mount_options: ["dmode=777,fmode=666"]

@@ -1,7 +1,5 @@
 ---
-- hosts: all
-  remote_user: vagrant
-  sudo: yes
+- hosts: localhost
   tasks:
   ###############
   #
@@ -13,6 +11,9 @@
                     key="{{ lookup('file', item) }}"
     with_fileglob:
       - authorized_keys/*
+
+  - name: Setup Ansible local cron job
+    cron: name=ansible_timed minute=*/30 job="cd /vagrant && ansible-playbook -i localhost.yml playbook.yml"
 
   ###############
   #
@@ -44,7 +45,7 @@
   #
   ###############
   - name: minecraft
-    docker: image=itzg/minecraft-server name=minecraft net=host env="JVM_OPTS=-Xmx2048M -Xms2048M,MOTD=Baddogs Server,EULA=TRUE" ports="25565:25565" volumes=/vagrant/minecraft:/data:rw
+    docker: image=itzg/minecraft-server name=minecraft env="JVM_OPTS=-Xmx2048M -Xms2048M,MOTD=Baddogs Server,EULA=TRUE" ports="25565:25565" volumes=/vagrant/minecraft:/data:rw
 
   ###############
   #
@@ -52,7 +53,7 @@
   #
   ###############
   - name: minecraft-www
-    docker: image=nginx ports=80:80 name=minecraft-www volumes=/vagrant/minecraft-www:/usr/share/nginx/html:ro
+    docker: image=nginx name=minecraft-www ports=80:80 volumes=/vagrant/minecraft-www:/usr/share/nginx/html:ro
 
   ###############
   #
