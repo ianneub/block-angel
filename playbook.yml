@@ -60,4 +60,4 @@
   #
   ###############
   - name: minecraft-map cron job
-    cron: name=minecraft-map minute=0 hour=0 job="docker run -c 256 --rm -v /vagrant/minecraft:/minecraft:ro -v /vagrant/minecraft-www:/www ianneub/minecraft-map-generator && rm /vagrant/minecraft-www/markers*; docker run -c 256 --rm -v /vagrant/minecraft:/minecraft:ro -v /vagrant/minecraft-www:/www ianneub/minecraft-map-generator --genpoi"
+    cron: name=minecraft-map minute=0 hour=8 job="docker run -c 256 --rm -v /vagrant/minecraft:/minecraft:ro -v /vagrant/minecraft-www:/www ianneub/minecraft-map-generator && rm /vagrant/minecraft-www/markers*; docker run -c 256 --rm -v /vagrant/minecraft:/minecraft:ro -v /vagrant/minecraft-www:/www ianneub/minecraft-map-generator --genpoi"
